@@ -1,0 +1,41 @@
+{% extends "index.html" %}
+{% block content %}
+  <h2>Generate Dynamic Bill</h2>
+  <form method="post">
+
+    <label for="part">Part Name:</label>
+    <select id="part" name="part" required>
+      <option value="" disabled selected>-- Select Part --</option>
+      {% for part in parts %}
+        <option value="{{ part }}">{{ part }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="quantity" name="quantity" min="1" required>
+
+    <label for="country">Destination Country:</label>
+    <select id="country" name="country" required>
+      <option value="" disabled selected>-- Select Country --</option>
+      {% for country in countries %}
+        <option value="{{ country }}">{{ country }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="tender_price">Tender Price (₹):</label>
+    <input type="number" id="tender_price" name="tender_price" step="0.01" min="0" required>
+
+    <input type="submit" value="Generate Bill">
+  </form>
+
+  {% if bill %}
+    <div class="bill">
+      <h3>Bill Summary</h3>
+      <p><strong>Unit Price:</strong> ₹{{ bill.unit_price }}</p>
+      <p><strong>Quantity:</strong> {{ bill.quantity }}</p>
+      <p><strong>Tax (18%):</strong> ₹{{ bill.tax }}</p>
+      <p><strong>Total Cost:</strong> ₹{{ bill.total }}</p>
+      <p><strong>Recommendation:</strong> {{ bill.recommendation }}</p>
+    </div>
+  {% endif %}
+{% endblock %}

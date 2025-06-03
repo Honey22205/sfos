@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <meta charset="UTF-8">
+  <title>Dixon SFOS - Home</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #e6f0ff, #f4faff);
+      color: #002855;
+      margin: 0;
+      padding: 0;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #003366, #0059b3);
+      color: white;
+      padding: 100px 30px;
+      text-align: center;
+      border-radius: 0 0 40px 40px;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      font-weight: 300;
+      margin-top: 10px;
+    }
+
+    .cta-btn {
+      background: white;
+      color: #003366;
+      border: none;
+      padding: 15px 30px;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 30px;
+      margin-top: 30px;
+      transition: all 0.3s ease;
+    }
+
+    .cta-btn:hover {
+      background-color: #cce0ff;
+      transform: scale(1.05);
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin: 60px auto;
+      padding: 0 20px;
+      max-width: 1100px;
+    }
+
+    .card-glass {
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 10px 30px rgba(0, 51, 102, 0.2);
+      backdrop-filter: blur(8px);
+      border-radius: 20px;
+      padding: 30px;
+      flex: 1 1 300px;
+      max-width: 350px;
+      transition: all 0.3s ease;
+    }
+
+    .card-glass:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 35px rgba(0, 51, 102, 0.3);
+    }
+
+    .card-glass h3 {
+      font-weight: 600;
+      color: #003366;
+    }
+
+    .card-glass p {
+      font-size: 0.95rem;
+      color: #333;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #002244;
+      color: white;
+      margin-top: 60px;
+      border-radius: 30px 30px 0 0;
+    }
+
+    a.nav-link {
+      color: white;
+      margin: 0 15px;
+      font-weight: 500;
+    }
+
+    a.nav-link:hover {
+      text-decoration: underline;
+    }
+    .navbar {
+    background-color: #2271c5; /* Change this to your desired color */
+}
+    
+
+        .navbar-nav .nav-link {
+            color: rgb(3, 3, 15);
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ff6600;
+        }
+  </style>
+</head>
+<body>
+    <!-- Navbar -->
+  <div class="user-icon">
+  👤 {% if user %} {{ user }} | <a href="{{ url_for('logout') }}">Logout</a> {% endif %}
+</div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{{ url_for('home') }}">SFOS</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('compare') }}">Compare</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('billing') }}">Billing</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('settings') }}">Settings</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  {% block content %}
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Smart Financial Optimization System (SFOS)</h1>
+    <p>Empowering Dixon Technologies with AI-driven pricing, taxation & profitability tools.</p>
+    <a href="{{ url_for('compare') }}">
+      <button class="cta-btn">Get Started</button>
+    </a>
+  </section>
+
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="card-glass">
+      <h3>🔍 Real-Time Comparison</h3>
+      <p>Instantly compare tender vs. market prices with live data APIs for maximum savings.</p>
+    </div>
+    <div class="card-glass">
+      <h3>🧾 Dynamic Billing</h3>
+      <p>Generate transparent, compliant invoices with smart markup logic and automated tax.</p>
+    </div>
+    <div class="card-glass">
+      <h3>🌐 Global Tax Engine</h3>
+      <p>Compute GST, VAT, customs duties — tailored to each destination country in real-time.</p>
+    </div>
+    <div class="card-glass">
+      <h3>📊 Insight Dashboard</h3>
+      <p>View profit margins, pricing trends, and actionable business intelligence in one place.</p>
+    </div>
+  </section>
+  {% endblock %}
+
+  <!-- Footer -->
+  <footer>
+    &copy; {{ 2025 }} Dixon Technologies • Smart Financial Optimization System
+  </footer>
+
+</body>
+</html>

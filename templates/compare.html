@@ -1,0 +1,121 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<h2>Compare Prices</h2>
+
+<form method="POST" action="/compare">
+  <div class="mb-3">
+    <label for="part_name" class="form-label">Select Part</label>
+    <select class="form-select" id="part_name" name="part_name" required>
+      <option selected disabled>-- Choose a Part --</option>
+      {% for part in parts %}
+        <option value="{{ part }}">{{ part }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  
+  <div class="mb-3">
+    <label for="tender_price" class="form-label">Enter Tender Price (in ₹)</label>
+    <input type="number" class="form-control" id="tender_price" name="tender_price" step="0.01" required>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Compare</button>
+</form>
+
+{% if result %}
+  <h3 class="mt-5">Comparison Result</h3>
+  <ul>
+    <li><strong>Market Price:</strong> ₹{{ result.market_price }}</li>
+    <li><strong>Tender Price:</strong> ₹{{ result.tender_price }}</li>
+    <li><strong>Price Difference:</strong> ₹{{ result.difference }}</li>
+    <li><strong>Recommendation:</strong> {{ result.recommendation }}</li>
+  </ul>
+
+  <!-- Popup banner -->
+  <div id="popup-banner" class="popup-banner {{ 'accept' if result.recommendation == 'Accept Tender' else 'reevaluate' }}">
+    {% if result.recommendation == 'Accept Tender' %}
+      🎉 Congrats! You found the right vendor!
+    {% else %}
+      ⚠️ Re-evaluate Pricing
+    {% endif %}
+  </div>
+
+  <!-- Graph container -->
+  <div id="priceChart" style="width:100%; max-width:600px; height:400px;"></div>
+
+  <!-- Plotly.js CDN -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <script>
+    // Safe check if result exists and values are valid numbers
+    const marketPrice = parseFloat("{{ result.market_price }}");
+    const tenderPrice = parseFloat("{{ result.tender_price }}");
+
+    if (!isNaN(marketPrice) && !isNaN(tenderPrice)) {
+      const data = [{
+        x: ['Market Price', 'Tender Price'],
+        y: [marketPrice, tenderPrice],
+        type: 'bar',
+        marker: {
+          color: ['#1f77b4', '#2ca02c']
+        }
+      }];
+
+      const layout = {
+        title: 'Price Comparison (in ₹)',
+        yaxis: { title: 'Price (₹)' },
+        xaxis: { title: 'Type' }
+      };
+
+      Plotly.newPlot('priceChart', data, layout);
+    }
+
+    // Animate popup banner slide down and fade out
+    const popup = document.getElementById('popup-banner');
+    if (popup) {
+      popup.classList.add('show-popup');
+
+      setTimeout(() => {
+        popup.classList.remove('show-popup');
+      }, 5000);
+    }
+  </script>
+
+  <style>
+    /* Popup banner base styles */
+    .popup-banner {
+      position: fixed;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-weight: bold;
+      padding: 15px 30px;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      font-size: 1.25rem;
+      transition: top 0.5s ease, opacity 0.5s ease;
+      opacity: 0;
+      z-index: 1050;
+      text-align: center;
+      width: fit-content;
+      max-width: 90vw;
+      white-space: nowrap;
+    }
+
+    .popup-banner.accept {
+      background-color: #28a745; /* green */
+    }
+
+    .popup-banner.reevaluate {
+      background-color: #dc3545; /* red */
+    }
+
+    .popup-banner.show-popup {
+      top: 20px;
+      opacity: 1;
+    }
+  </style>
+{% endif %}
+
+{% endblock %}

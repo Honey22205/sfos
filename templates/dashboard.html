@@ -1,0 +1,94 @@
+{% extends "index.html" %}
+{% block content %}
+  <div class="container">
+    <h2 class="mb-4">SFOS Dashboard</h2>
+    
+    <div class="row">
+      <!-- Top-selling Parts -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm p-3">
+          <h5 class="card-title">Top-selling Parts</h5>
+          <canvas id="topPartsChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Revenue Gaps -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm p-3">
+          <h5 class="card-title">Revenue Gaps Identified</h5>
+          <canvas id="revenueGapsChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Country-wise Tax -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm p-3">
+          <h5 class="card-title">Country-wise Tax Breakdown</h5>
+          <canvas id="taxChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Profit Margins -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm p-3">
+          <h5 class="card-title">Profit Margins Visualization</h5>
+          <canvas id="profitChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    // Example charts (Replace with your actual data)
+    const topPartsChart = new Chart(document.getElementById('topPartsChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Engine', 'Brake Pad', 'Filter', 'Gearbox', 'Battery'],
+        datasets: [{
+          label: 'Units Sold',
+          data: [120, 90, 75, 60, 45],
+          backgroundColor: 'rgba(54, 162, 235, 0.6)'
+        }]
+      }
+    });
+
+    const revenueGapsChart = new Chart(document.getElementById('revenueGapsChart'), {
+      type: 'line',
+      data: {
+        labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+        datasets: [{
+          label: 'Revenue Gap (in ₹)',
+          data: [5000, 3000, 7000, 2000],
+          borderColor: 'rgba(255, 99, 132, 1)',
+          fill: false
+        }]
+      }
+    });
+
+    const taxChart = new Chart(document.getElementById('taxChart'), {
+      type: 'pie',
+      data: {
+        labels: ['India', 'USA', 'Germany', 'Japan'],
+        datasets: [{
+          label: 'Tax Collected',
+          data: [15000, 10000, 8000, 5000],
+          backgroundColor: ['#ffcd56', '#36a2eb', '#ff6384', '#4bc0c0']
+        }]
+      }
+    });
+
+    const profitChart = new Chart(document.getElementById('profitChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['High Margin', 'Medium Margin', 'Low Margin'],
+        datasets: [{
+          data: [40, 35, 25],
+          backgroundColor: ['#2ecc71', '#f1c40f', '#e74c3c']
+        }]
+      }
+    });
+  </script>
+{% endblock %}

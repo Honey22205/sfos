@@ -1,0 +1,13 @@
+<!-- templates/signup.html -->
+{% extends "index.html" %}
+{% block content %}
+<h2>Sign Up</h2>
+<form method="post">
+  <label>Email:</label>
+  <input type="email" name="email" required>
+  <label>Password:</label>
+  <input type="password" name="password" required>
+  <input type="submit" value="Sign Up">
+</form>
+<p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+{% endblock %}
